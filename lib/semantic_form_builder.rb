@@ -1,3 +1,5 @@
+require 'action_view'
+
 module SemanticFormBuilder
   class FormBuilder < ActionView::Helpers::FormBuilder
     %w[text_field collection_select password_field file_field datetime_select select text_area grouped_collection_select].each do |method_name|
