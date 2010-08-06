@@ -8,7 +8,7 @@ module SemanticFormBuilder
         
         s +=  field_label(field_name, *args) + "\r\n  "
         
-        s +=  super + "\r\n"
+        s +=  super(field_name, *args) + "\r\n"
         
 =begin
         unless field_hint(*args) == ''
