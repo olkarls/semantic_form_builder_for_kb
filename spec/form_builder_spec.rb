@@ -100,6 +100,14 @@ module SemanticFormBuilder
       it "should include requirement indication if attribute is required" do
         @builder.text_field(:email).should have_tag('label > abbr', '*')
       end
+      
+      it "should include classes if supplied" do
+        @builder.text_field(:name, :label_class => "name").should have_tag('label.name')
+      end
+      
+      it "should include classes if supplied and the required class if attribute is required" do
+        @builder.text_field(:email, :label_class => "name other_class").should have_tag('label.name.required.other_class')
+      end
     end
     
     describe '#phone_field' do
@@ -131,7 +139,5 @@ module SemanticFormBuilder
         @builder.search_field(:email).should have_tag('input[@type=search]')
       end
     end
-    
-    
   end
 end
