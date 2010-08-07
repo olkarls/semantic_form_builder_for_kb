@@ -89,12 +89,15 @@ module SemanticFormBuilder
         @builder.text_field(:name).should have_tag('label', 'Translation missing: en, name: ')
       end
       
+      it "should have the label_text if it is supplied" do
+        @builder.text_field(:name, :label => "Label text").should have_tag('label', 'Label text')
+      end
+      
       it "should have the correct for attribute" do
         @builder.text_field(:name).should have_tag('label[@for=user_name]')
       end
       
       it "should include requirement indication if attribute is required" do
-        p @builder.text_field(:email)
         @builder.text_field(:email).should have_tag('label > abbr', '*')
       end
     end
