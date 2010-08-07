@@ -14,11 +14,15 @@ module SemanticFormBuilder
       @builder = SemanticFormBuilder::FormBuilder.new(:user, @user, @controller.view_context, {}, Proc.new {})
     end
 
-    describe "#text_field" do
+    describe '#field_wrapper' do
+      it 'should have correct id' do
+        @builder.text_field(:name).should have_tag('div#wrapper_user_name')
+      end
+      
       it 'should not include error wrapper when valid' do
         @builder.text_field(:name).should_not have_tag('div.field_with_error')
       end
-
+      
       it 'should include error wrapper when not valid' do
         @user.errors[:name] << "is required"
         @builder.text_field(:name).should have_tag('div.field_with_error')
