@@ -62,5 +62,20 @@ module SemanticFormBuilder
         @builder.text_field(:name).should_not have_tag('span.error_message', 'Second error')
       end
     end
+    
+    describe '#field_hint' do
+      it "should not be present if argument is not passed" do
+        @builder.text_field(:name).should_not have_tag('span.field_hint')
+      end
+      
+      it "should be present if argument is passed" do
+        @builder.text_field(:name, :hint => 'Some hint').should have_tag('span.field_hint', 'Some hint')
+      end
+      
+      it "should not be present if there is an error on the attribute" do
+        @user.errors[:name] << "Error message"
+        @builder.text_field(:name, :hint => 'Some hint').should_not have_tag('span.field_hint', 'Some hint')
+      end
+    end
   end
 end
