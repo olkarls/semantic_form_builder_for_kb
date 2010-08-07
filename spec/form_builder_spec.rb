@@ -42,5 +42,25 @@ module SemanticFormBuilder
         end
       end
     end
+    
+    describe '#field_error' do
+      it "should not be included if attribute is valid" do
+        @builder.text_field(:name).should_not have_tag('span.error_message')
+      end
+      
+      it "should be included if attribute is not valid" do
+        msg = 'Name is required'
+        @user.errors[:name] << msg
+        @builder.text_field(:name).should have_tag('span.error_message', msg)
+      end
+      
+      it 'should only include the first error' do
+        msg = 'Name is required'
+        @user.errors[:name] << msg
+        @user.errors[:name] << 'Second error'
+        @builder.text_field(:name).should have_tag('span.error_message', msg)
+        @builder.text_field(:name).should_not have_tag('span.error_message', 'Second error')
+      end
+    end
   end
 end
