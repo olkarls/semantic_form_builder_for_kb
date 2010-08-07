@@ -1,6 +1,7 @@
 require File.expand_path('spec_helper', File.dirname(__FILE__))
 
 class User < ActiveRecord::Base
+  validates_presence_of :email
 end
 
 class SomeController < ActionController::Base
@@ -23,6 +24,10 @@ module SemanticFormBuilder
         
         it 'should have the correct classes' do
           @builder.text_field(:name).should have_tag('div.control_wrapper')
+        end
+        
+        it 'should include required class if attribute is required' do
+          @builder.text_field(:email).should have_tag('div.required')
         end
       end
       
@@ -75,6 +80,22 @@ module SemanticFormBuilder
       it "should not be present if there is an error on the attribute" do
         @user.errors[:name] << "Error message"
         @builder.text_field(:name, :hint => 'Some hint').should_not have_tag('span.field_hint', 'Some hint')
+        @builder.text_field(:name).should have_tag('span.error_message', 'Error message')
+      end
+    end
+    
+    describe '#field_label' do
+      it "should include translation_key if no label_text is supplied" do
+        @builder.text_field(:name).should have_tag('label', 'Translation missing: en, name: ')
+      end
+      
+      it "should have the correct for attribute" do
+        @builder.text_field(:name).should have_tag('label[@for=user_name]')
+      end
+      
+      it "should include requirement indication if attribute is required" do
+        p @builder.text_field(:email)
+        @builder.text_field(:email).should have_tag('label > abbr', '*')
       end
     end
   end

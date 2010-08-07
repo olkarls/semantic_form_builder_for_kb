@@ -76,6 +76,9 @@ module SemanticFormBuilder
         classes << [wrapper_class_for_method(method_name)]
         classes << "field_with_error" if has_error?(field_name)
       end
+      
+      classes << "required" if field_required?(field_name)
+      
       classes.join(" ")
     end
 
@@ -121,9 +124,7 @@ module SemanticFormBuilder
     end
     
     def field_required?(field_name)
-      if defined?(object.class.reflect_on_validations_for)
-        object.class.reflect_on_validations_for(field_name).map(&:macro).include?(:validates_presence_of)
-      end
+      object.class.validators_on(field_name).map(&:class).include? ActiveModel::Validations::PresenceValidator
     end
   end
 end
