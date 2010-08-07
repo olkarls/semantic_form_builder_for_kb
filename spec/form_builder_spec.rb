@@ -101,5 +101,37 @@ module SemanticFormBuilder
         @builder.text_field(:email).should have_tag('label > abbr', '*')
       end
     end
+    
+    describe '#phone_field' do
+      it "should have the correct html5 type" do
+        @builder.phone_field(:email).should have_tag('input[@type=tel]')
+      end
+    end
+    
+    describe '#email_field' do
+      it "should have the correct html5 type" do
+        @builder.email_field(:email).should have_tag('input[@type=email]')
+      end
+    end
+    
+    describe '#urll_field' do
+      it "should have the correct html5 type" do
+        @builder.url_field(:email).should have_tag('input[@type=url]')
+      end
+    end
+    
+    describe '#telephone_field' do
+      it "should have the correct html5 type" do
+        @builder.telephone_field(:email).should have_tag('input[@type=tel]')
+      end
+    end
+    
+    describe '#search_field' do
+      it "should have the correct html5 type" do
+        @builder.search_field(:email).should have_tag('input[@type=search]')
+      end
+    end
+    
+    
   end
 end

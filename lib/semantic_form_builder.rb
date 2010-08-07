@@ -31,6 +31,24 @@ module SemanticFormBuilder
       end
     end
     
+    %w[email_field url_field telephone_field phone_field search_field].each do |method_name|
+      define_method(method_name) do |field_name, *args|
+        type = case method_name.to_sym
+          when :email_field then :email
+          when :url_field then :url
+          when :phone_field then :tel
+          when :search_field then :search
+        end
+        field_wrapper(method_name, field_name) do
+          field_label(field_name, method_name, *args) + 
+          @template.text_field_tag("#{object_name}[#{field_name}]", object.send(field_name), options.stringify_keys.update("type" => type.to_s).merge(:builder => nil, :size => 30)) + 
+          field_error_or_hint(field_name, *args)
+        end
+      end
+    end
+    
+    alias telephone_field phone_field
+    
     def field_wrapper(method_name = nil, field_name = nil, &block)
       if block_given?
         @template.content_tag(:div, :class => field_wrapper_classes(method_name, field_name), :id => wrapper_id(object_name, field_name)) do
