@@ -31,14 +31,18 @@ module SemanticFormBuilder
       end
     end
     
-    %w[email_field url_field telephone_field phone_field search_field].each do |method_name|
+    %w[email_field url_field telephone_field phone_field search_field numeric_field].each do |method_name|
       define_method(method_name) do |field_name, *args|
         type = case method_name.to_sym
           when :email_field then :email
           when :url_field then :url
           when :phone_field then :tel
           when :search_field then :search
+          when :numeric_field then :number
         end
+        
+        options = args.extract_options!
+        
         field_wrapper(method_name, field_name) do
           field_label(field_name, method_name, *args) + 
           @template.text_field_tag("#{object_name}[#{field_name}]", object.send(field_name), options.stringify_keys.update("type" => type.to_s).merge(:builder => nil, :size => 30)) + 

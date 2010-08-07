@@ -139,5 +139,18 @@ module SemanticFormBuilder
         @builder.search_field(:email).should have_tag('input[@type=search]')
       end
     end
+    
+    describe '#numeric_field' do
+      it "should have the correct html5 type" do
+        @builder.numeric_field(:email).should have_tag('input[@type=number]')
+      end
+    end
+    
+    describe 'placeholder attribute' do
+      it 'should be included if supplied' do
+        @builder.text_field(:email, :placeholder => "user@example.com").should have_tag('input[@placeholder="user@example.com"]')
+        @builder.email_field(:email, :placeholder => "user@example.com").should have_tag('input[@placeholder="user@example.com"]')
+      end
+    end
   end
 end
