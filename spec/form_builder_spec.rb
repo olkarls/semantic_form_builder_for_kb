@@ -15,17 +15,31 @@ module SemanticFormBuilder
     end
 
     describe '#field_wrapper' do
-      it 'should have correct id' do
-        @builder.text_field(:name).should have_tag('div#wrapper_user_name')
+      context 'Always' do
+        it 'should have a correct id' do
+          @builder.text_field(:name).should have_tag('div#wrapper_user_name')
+          @builder.text_field(:bio).should have_tag('div#wrapper_user_bio')
+        end
+        
+        it 'should have the correct classes' do
+          @builder.text_field(:name).should have_tag('div.control_wrapper')
+        end
       end
       
-      it 'should not include error wrapper when valid' do
-        @builder.text_field(:name).should_not have_tag('div.field_with_error')
+      context 'Valid attribute' do
+        it 'should not include error class' do
+          @builder.text_field(:name).should_not have_tag('div.field_with_error')
+        end
       end
       
-      it 'should include error wrapper when not valid' do
-        @user.errors[:name] << "is required"
-        @builder.text_field(:name).should have_tag('div.field_with_error')
+      context 'Unvalid attribute' do
+        before do
+          @user.errors[:name] << "Name is required"
+        end
+        
+        it 'should include error class' do
+          @builder.text_field(:name).should have_tag('div.field_with_error')
+        end
       end
     end
   end
