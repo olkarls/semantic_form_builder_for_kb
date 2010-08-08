@@ -152,5 +152,39 @@ module SemanticFormBuilder
         @builder.email_field(:email, :placeholder => "user@example.com").should have_tag('input[@placeholder="user@example.com"]')
       end
     end
+    
+    describe '#submit' do
+      it "should have type submit" do
+        @builder.submit().should have_tag('button[@type=submit]')
+      end
+      
+      it "should have a nested span" do
+        @builder.submit().should have_tag('button > span')
+      end
+      
+      it "should have the correct text" do
+        @builder.submit("Don't click on me").should have_tag('button > span', "Don't click on me")
+      end
+      
+      it "should include translation_key if no text is supplied" do
+        @builder.submit().should have_tag('button > span', "translation missing: en, save")
+      end
+      
+      it "should have name commit if no name is supplied" do
+        @builder.submit().should have_tag('button[@name=commit]')
+      end
+      
+      it "should be possible to override name attribute" do
+        @builder.submit(nil, :name => 'unlucky_luke').should have_tag('button[@name=unlucky_luke]')
+      end
+      
+      it "should be possible to set classes" do
+        @builder.submit(nil, :class => 'unlucky_luke').should have_tag('button.unlucky_luke')
+      end
+      
+      it "should be possible to set id" do
+        @builder.submit(nil, :id => 'unlucky_luke').should have_tag('button#unlucky_luke')
+      end
+    end
   end
 end

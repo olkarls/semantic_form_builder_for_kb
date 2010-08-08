@@ -53,6 +53,15 @@ module SemanticFormBuilder
     
     alias telephone_field phone_field
     
+    def submit(text = nil, *args)
+      text = I18n.translate(:save) if text.blank?
+      options = args.extract_options!
+      options[:name] = "commit" if options[:name].blank?
+      @template.content_tag(:button, :class => options[:class], :id => options[:id], :name => options[:name], :type => "submit") do
+        @template.content_tag(:span, text)
+      end
+    end
+    
     def field_wrapper(method_name = nil, field_name = nil, &block)
       if block_given?
         @template.content_tag(:div, :class => field_wrapper_classes(method_name, field_name), :id => wrapper_id(object_name, field_name)) do
