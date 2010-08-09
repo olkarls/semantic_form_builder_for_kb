@@ -187,6 +187,13 @@ module SemanticFormBuilder
       end
     end
     
+    describe '#check_box' do
+      it "should include checkbox" do
+        p @builder.check_box(:accepted_terms)
+        @builder.check_box(:accepted_terms).should have_tag('input[@type=checkbox]')
+      end
+    end
+    
     describe '#radio_buttons' do
       it "should have correct name attribute" do
         @builder.radio_buttons(:role, ["user", "admin"]).should have_tag('input[@name="user[role]"]')

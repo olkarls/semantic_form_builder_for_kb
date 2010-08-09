@@ -53,6 +53,14 @@ module SemanticFormBuilder
     
     alias telephone_field phone_field
     
+    def check_box(field_name, *args)
+      field_wrapper("check_box", field_name) do
+        field_label(field_name, "check_box", *args) + 
+        super(field_name, *args).html_safe + 
+        field_error_or_hint(field_name, *args)
+      end
+    end
+    
     def radio_buttons(field_name, collection, *args)
       options = args.extract_options!
       
