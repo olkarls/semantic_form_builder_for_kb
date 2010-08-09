@@ -122,7 +122,7 @@ module SemanticFormBuilder
       end
     end
     
-    describe '#urll_field' do
+    describe '#url_field' do
       it "should have the correct html5 type" do
         @builder.url_field(:email).should have_tag('input[@type=url]')
       end
@@ -184,6 +184,24 @@ module SemanticFormBuilder
       
       it "should be possible to set id" do
         @builder.submit(nil, :id => 'unlucky_luke').should have_tag('button#unlucky_luke')
+      end
+    end
+    
+    describe '#fieldset' do
+      it "should return a fieldset with nested content" do
+        @builder.fieldset { "fieldset content" }.should have_tag('fieldset', 'fieldset content')
+      end
+      
+      it "should include legend if argument is passed" do
+        @builder.fieldset(:legend => "Legend text") { }.should have_tag('fieldset > legend', 'Legend text')
+      end
+      
+      it "should be able to set classes" do
+        @builder.fieldset(:class => "fieldset_class") { }.should have_tag('fieldset.fieldset_class')
+      end
+      
+      it "should raise error if no block is given" do
+        lambda { @builder.fieldset }.should raise_error
       end
     end
   end

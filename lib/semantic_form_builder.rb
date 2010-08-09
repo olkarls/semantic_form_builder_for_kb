@@ -62,6 +62,19 @@ module SemanticFormBuilder
       end
     end
     
+    def fieldset(*args, &block)
+      options = args.extract_options!
+      if block_given?
+        legend_tag = ""
+        unless options[:legend].blank?
+          legend_tag = @template.content_tag(:legend, options[:legend])
+        end
+        @template.content_tag(:fieldset, legend_tag.html_safe + @template.capture(&block), :class => options[:class])
+      else
+        raise ArgumentError, "No block given."
+      end
+    end
+    
     def field_wrapper(method_name = nil, field_name = nil, &block)
       if block_given?
         @template.content_tag(:div, :class => field_wrapper_classes(method_name, field_name), :id => wrapper_id(object_name, field_name)) do
