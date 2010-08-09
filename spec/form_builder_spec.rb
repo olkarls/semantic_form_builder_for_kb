@@ -189,7 +189,6 @@ module SemanticFormBuilder
     
     describe '#check_box' do
       it "should include checkbox" do
-        p @builder.check_box(:accepted_terms)
         @builder.check_box(:accepted_terms).should have_tag('input[@type=checkbox]')
       end
     end
