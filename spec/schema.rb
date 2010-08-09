@@ -7,5 +7,6 @@ ActiveRecord::Schema.define(:version => 0) do
     t.datetime  :registered_at
     t.boolean   :accepted_terms
     t.text      :bio
+    t.string    :role
   end
 end

@@ -53,6 +53,15 @@ module SemanticFormBuilder
     
     alias telephone_field phone_field
     
+    def radio_buttons(field_name, collection, *args)
+      options = args.extract_options!
+      
+      field_wrapper("radio_buttons", field_name, *args) do
+        radio_buttons_from_collection(field_name, collection) + 
+        field_error_or_hint(field_name, *args)
+      end
+    end
+    
     def submit(text = nil, *args)
       text = I18n.translate(:save) if text.blank?
       options = args.extract_options!
@@ -169,6 +178,15 @@ module SemanticFormBuilder
     
     def field_required?(field_name)
       object.class.validators_on(field_name).map(&:class).include? ActiveModel::Validations::PresenceValidator
+    end
+    
+    def radio_buttons_from_collection(field_name, collection)
+      s = ""
+      collection.each do |value|
+        s += @template.radio_button_tag("#{object.class.to_s.underscore}[#{field_name}]", value)
+        s += label(field_name, I18n.translate(value.to_sym), :value => value)
+      end      
+      @template.content_tag(:div, s.html_safe, :class => "buttons_holder")
     end
   end
 end

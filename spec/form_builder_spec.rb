@@ -187,6 +187,17 @@ module SemanticFormBuilder
       end
     end
     
+    describe '#radio_buttons' do
+      it "should have correct name attribute" do
+        @builder.radio_buttons(:role, ["user", "admin"]).should have_tag('input[@name="user[role]"]')
+      end
+      
+      it "should include collection as radio_buttons" do
+        @builder.radio_buttons(:role, ["user", "admin"]).should have_tag('input[@value="user"]')
+        @builder.radio_buttons(:role, ["user", "admin"]).should have_tag('input[@value="admin"]')
+      end
+    end
+    
     describe '#fieldset' do
       it "should return a fieldset with nested content" do
         @builder.fieldset { "fieldset content" }.should have_tag('fieldset', 'fieldset content')
