@@ -191,6 +191,10 @@ module SemanticFormBuilder
       it "should include checkbox" do
         @builder.check_box(:accepted_terms).should have_tag('input[@type=checkbox]')
       end
+      
+      it "should include label after checkbox" do
+        @builder.check_box(:accepted_terms).should have_tag('input, input, label')
+      end
     end
     
     describe '#radio_buttons' do
