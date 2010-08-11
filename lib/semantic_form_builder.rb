@@ -95,7 +95,7 @@ module SemanticFormBuilder
         end
         @template.content_tag(:fieldset, legend_tag.html_safe + @template.capture(&block), :class => options[:class])
       else
-        raise ArgumentError, "No block given."
+        raise ArgumentError, 'No block given.'
       end
     end
     
@@ -105,7 +105,7 @@ module SemanticFormBuilder
           @template.capture(&block)
         end
       else
-        raise ArgumentError, 'No block given'
+        raise ArgumentError, 'No block given.'
       end
     end
     
