@@ -207,8 +207,8 @@ module SemanticFormBuilder
     def radio_buttons_from_model_collection(field_name, collection, value_method, text_method)
       s = ""
       collection.each do |value|
-        s += @template.radio_button_tag("#{object.class.to_s.underscore}[#{field_name}]", value.send(value_method))
-        s += label(field_name, value.send(text_method), :for => "#{value.class.to_s.underscore}_#{field_name}_#{value.send(value_method)}")
+        s += @template.radio_button_tag("#{object_name}[#{field_name}]", value.send(value_method))
+        s += label(field_name, value.send(text_method), :for => "#{object_name}_#{field_name}_#{value.send(value_method)}")
       end
       @template.content_tag(:div, s.html_safe, :class => "buttons_holder")
     end
