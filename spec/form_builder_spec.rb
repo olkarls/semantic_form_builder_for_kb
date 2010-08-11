@@ -206,6 +206,18 @@ module SemanticFormBuilder
         @builder.radio_buttons(:role, ["user", "admin"]).should have_tag('input[@value="user"]')
         @builder.radio_buttons(:role, ["user", "admin"]).should have_tag('input[@value="admin"]')
       end
+      
+      it "should be possible to pass models as collection" do
+        
+        users = []
+        users << User.create(:email => "test@test.se")
+        users << User.create(:email => "test@test.se")
+        users << User.create(:email => "test@test.se")
+        users << User.create(:email => "test@test.se")
+        users << User.create(:email => "test@test.se")
+        
+        @builder.radio_buttons(:role, users, :id, :email).should have_tag('input[@type=radio]', :count => 5)
+      end
     end
     
     describe '#fieldset' do

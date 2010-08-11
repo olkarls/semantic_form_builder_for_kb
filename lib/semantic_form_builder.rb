@@ -61,12 +61,19 @@ module SemanticFormBuilder
       end
     end
     
-    def radio_buttons(field_name, collection, *args)
+    def radio_buttons(field_name, collection, value_method = nil, text_method = nil, *args)
       options = args.extract_options!
       
-      field_wrapper("radio_buttons", field_name, *args) do
-        radio_buttons_from_collection(field_name, collection) + 
-        field_error_or_hint(field_name, *args)
+      if collection.first.class == String
+        field_wrapper("radio_buttons", field_name, *args) do
+          radio_buttons_from_array_collection(field_name, collection) + 
+          field_error_or_hint(field_name, *args)
+        end
+      else
+        field_wrapper("radio_buttons", field_name, *args) do
+          radio_buttons_from_model_collection(field_name, collection, value_method, text_method) + 
+          field_error_or_hint(field_name, *args)
+        end
       end
     end
     
@@ -188,12 +195,21 @@ module SemanticFormBuilder
       object.class.validators_on(field_name).map(&:class).include? ActiveModel::Validations::PresenceValidator
     end
     
-    def radio_buttons_from_collection(field_name, collection)
+    def radio_buttons_from_array_collection(field_name, collection)
       s = ""
       collection.each do |value|
         s += @template.radio_button_tag("#{object.class.to_s.underscore}[#{field_name}]", value)
         s += label(field_name, I18n.translate(value.to_sym), :value => value)
       end      
+      @template.content_tag(:div, s.html_safe, :class => "buttons_holder")
+    end
+    
+    def radio_buttons_from_model_collection(field_name, collection, value_method, text_method)
+      s = ""
+      collection.each do |value|
+        s += @template.radio_button_tag("#{object.class.to_s.underscore}[#{field_name}]", value.send(value_method))
+        s += label(field_name, value.send(text_method), :for => "#{value.class.to_s.underscore}_#{field_name}_#{value.send(value_method)}")
+      end
       @template.content_tag(:div, s.html_safe, :class => "buttons_holder")
     end
   end
