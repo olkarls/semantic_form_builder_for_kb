@@ -239,6 +239,10 @@ module SemanticFormBuilder
         @builder.fieldset(:legend => "Legend text") { }.should have_tag('fieldset > legend', 'Legend text')
       end
       
+      it "should be able to set id" do
+        @builder.fieldset(:id => "fieldset_id") { }.should have_tag('fieldset#fieldset_id')
+      end
+      
       it "should be able to set classes" do
         @builder.fieldset(:class => "fieldset_class") { }.should have_tag('fieldset.fieldset_class')
       end

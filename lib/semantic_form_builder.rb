@@ -88,12 +88,15 @@ module SemanticFormBuilder
     
     def fieldset(*args, &block)
       options = args.extract_options!
+      
+      id = options[:id] unless options[:id].blank?
+      
       if block_given?
         legend_tag = ""
         unless options[:legend].blank?
           legend_tag = @template.content_tag(:legend, options[:legend])
         end
-        @template.content_tag(:fieldset, legend_tag.html_safe + @template.capture(&block), :class => options[:class])
+        @template.content_tag(:fieldset, legend_tag.html_safe + @template.capture(&block), :class => options[:class], :id => id)
       else
         raise ArgumentError, 'No block given.'
       end
