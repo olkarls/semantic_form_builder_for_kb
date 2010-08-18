@@ -212,5 +212,9 @@ module SemanticFormBuilder
       end
       @template.content_tag(:div, s.html_safe, :class => "buttons_holder")
     end
+    
+    def objectify_options(options)
+      super.except(:label, :required, :label_class, :hint)
+    end
   end
 end
