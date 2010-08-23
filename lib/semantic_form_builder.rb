@@ -61,6 +61,14 @@ module SemanticFormBuilder
       end
     end
     
+    def radio_button(field_name, *args)
+      field_wrapper("radio_button", field_name) do
+        super(field_name, *args).html_safe + 
+        field_label(field_name, "radio_button", *args) + 
+        field_error_or_hint(field_name, *args)
+      end
+    end
+    
     def radio_buttons(field_name, collection, value_method = nil, text_method = nil, *args)
       options = args.extract_options!
       
@@ -181,7 +189,7 @@ module SemanticFormBuilder
     end
     
     def field_error(field_name)
-      @template.content_tag(:span, object.errors[field_name].flatten.first.sub(/^\^/, ''), :class => 'error_message')
+      @template.content_tag(:span, object.errors[field_name].flatten.first.sub(/^\^/, ''), :class => 'error_message field_hint')
     end
 
     def field_hint(*args)
