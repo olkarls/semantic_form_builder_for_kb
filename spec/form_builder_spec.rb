@@ -189,6 +189,10 @@ module SemanticFormBuilder
       it "should be possible to set id" do
         @builder.submit(nil, :id => 'unlucky_luke').should have_tag('button#unlucky_luke')
       end
+      
+      it "should be possible to add title" do
+        @builder.submit(nil, :title => 'unlucky_luke').should have_tag('button[@title=unlucky_luke]')
+      end
     end
     
     describe '#check_box' do
