@@ -191,7 +191,7 @@ module SemanticFormBuilder
       end
       
       it "should be possible to add title" do
-        @builder.submit(nil, :title => 'unlucky_luke').should have_tag('button[@title=unlucky_luke]')
+        @builder.submit(nil, :title => 'unlucky_luke').should have_tag('button > span[@title=unlucky_luke]')
       end
     end
     
