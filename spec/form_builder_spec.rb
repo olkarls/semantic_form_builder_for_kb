@@ -108,6 +108,10 @@ module SemanticFormBuilder
       it "should include classes if supplied and the required class if attribute is required" do
         @builder.text_field(:email, :label_class => "name other_class").should have_tag('label.name.required.other_class')
       end
+      
+      it "should change for attribute if one is supplied" do
+        @builder.text_field(:name, :label_for => 'attr').should have_tag('label[@for=attr]')
+      end
     end
     
     describe '#phone_field' do

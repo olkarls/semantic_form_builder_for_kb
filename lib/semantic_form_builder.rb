@@ -134,14 +134,19 @@ module SemanticFormBuilder
       end
 
       classes << "required" if options[:required]
-
+      
       label_text = options[:label]
       label_text = I18n.translate(field_name.to_s.sub("_id", "")).capitalize + ": " if options[:label].blank?
       label_text = "#{label_text} <abbr>*</abbr>".html_safe if options[:required]
 
       css_classes = nil
       css_classes = classes.join(" ") unless classes.empty?
-      label(field_name, label_text, :class => css_classes)
+      
+      unless options[:label_for].blank?
+        label(field_name, label_text, :class => css_classes, :for => options[:label_for])
+      else
+        label(field_name, label_text, :class => css_classes)
+      end
     end
     
     protected
@@ -222,7 +227,7 @@ module SemanticFormBuilder
     end
     
     def objectify_options(options)
-      super.except(:label, :required, :label_class, :hint)
+      super.except(:label, :required, :label_class, :label_for, :hint)
     end
   end
 end
