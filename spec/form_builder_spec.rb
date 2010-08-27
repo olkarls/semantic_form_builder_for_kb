@@ -235,6 +235,10 @@ module SemanticFormBuilder
           @builder.radio_buttons(:admin, @users, :id, :email).should have_tag("input#user_admin_#{@users.first.id}")
           @builder.radio_buttons(:admin, @users, :id, :email).should have_tag("label[for=user_admin_#{@users.first.id}]")
         end
+        
+        it "should include error message" do
+          pending
+        end
       end
     end
     
