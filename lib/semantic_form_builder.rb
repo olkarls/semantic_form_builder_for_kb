@@ -88,6 +88,7 @@ module SemanticFormBuilder
     def submit(text = nil, *args)
       text = I18n.translate(:save) if text.blank?
       options = args.extract_options!
+      
       options[:name] = "commit" if options[:name].blank?
       @template.content_tag(:button, :class => options[:class], :id => options[:id], :name => options[:name], :type => "submit") do
         @template.content_tag(:span, text, :title => options[:title])
