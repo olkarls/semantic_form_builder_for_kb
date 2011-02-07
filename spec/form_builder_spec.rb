@@ -86,7 +86,7 @@ module SemanticFormBuilder
     
     describe '#field_label' do
       it "should include translation_key if no label_text is supplied" do
-        @builder.text_field(:name).should have_tag('label', 'Translation missing: en, name: ')
+        @builder.text_field(:name).should have_tag('label', 'Translation missing: en.name: ')
       end
       
       it "should have the label_text if it is supplied" do
@@ -171,7 +171,7 @@ module SemanticFormBuilder
       end
       
       it "should include translation_key if no text is supplied" do
-        @builder.submit().should have_tag('button > span', "translation missing: en, save")
+        @builder.submit().should have_tag('button > span', "translation missing: en.save")
       end
       
       it "should have name commit if no name is supplied" do
